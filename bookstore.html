@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>The Book Nook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <style>
+        body { font-family: 'Lato', sans-serif; color: #2e1f0f; background-color: #fdf8f2; }
+        .navbar { background-color: #2e1f0f !important; padding: 18px 0; }
+        .navbar-brand { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #f5e6d0 !important; letter-spacing: 1px; }
+        .nav-link { color: #d4b896 !important; font-size: 0.95rem; letter-spacing: 0.5px; margin-left: 10px; transition: color 0.3s; }
+        .nav-link:hover { color: #f5e6d0 !important; }
+        .hero-carousel { margin-top: 62px; }
+        .hero-carousel .carousel-item img { height: 92vh; object-fit: cover; width: 100%; }
+        .hero-carousel .carousel-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(20,10,3,0.65) 0%, rgba(20,10,3,0.1) 70%, transparent 100%); }
+        .hero-carousel .carousel-caption { bottom: 50%; transform: translateY(50%); text-align: left; left: 8%; right: auto; max-width: 600px; z-index: 2; }
+        .hero-carousel .carousel-caption h2 { font-family: 'Playfair Display', serif; font-size: 3.4rem; font-weight: 700; line-height: 1.2; margin-bottom: 16px; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
+        .hero-carousel .carousel-caption p { font-size: 1.15rem; font-weight: 300; margin-bottom: 24px; color: #f0dfc4; text-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+        .btn-warm { background-color: #c4783a; color: #fff; border: none; padding: 13px 36px; font-size: 0.95rem; letter-spacing: 1px; border-radius: 2px; transition: background 0.3s; text-decoration: none; display: inline-block; }
+        .btn-warm:hover { background-color: #a85e28; color: #fff; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #2e1f0f; margin-bottom: 8px; }
+        .section-subtitle { color: #8a6a4e; font-size: 1rem; margin-bottom: 50px; }
+        .genre-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #2e1f0f; border-bottom: 2px solid #c4783a; padding-bottom: 8px; margin-bottom: 24px; display: inline-block; }
+        .book-card { background: #fff; border: none; border-radius: 4px; box-shadow: 0 2px 16px rgba(46,31,15,0.08); transition: transform 0.3s, box-shadow 0.3s; height: 100%; }
+        .book-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(46,31,15,0.14); }
+        .book-card .card-body { padding: 24px; }
+        .book-card h5 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #2e1f0f; margin-bottom: 4px; }
+        .book-card .author { font-size: 0.85rem; color: #a88a6e; margin-bottom: 12px; }
+        .book-card p { font-size: 0.9rem; color: #5c4030; line-height: 1.6; }
+        .genre-badge { font-size: 0.75rem; padding: 4px 10px; border-radius: 2px; font-weight: 600; letter-spacing: 0.5px; }
+        .badge-fiction { background-color: #f5e6d0; color: #7a4a1e; }
+        .badge-inspo { background-color: #e8f0e8; color: #2e5e2e; }
+        .badge-mystery { background-color: #f0e8e8; color: #7a1e1e; }
+        .badge-children { background-color: #e8eef8; color: #1e3a7a; }
+        .card-footer-price { background: transparent; border-top: 1px solid #f0e8de; padding: 14px 24px; font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #c4783a; font-weight: 600; }
+        .about-section { background-color: #2e1f0f; color: #f5e6d0; }
+        .about-section h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 20px; }
+        .about-section p { color: #c4a882; line-height: 1.9; font-size: 1rem; }
+        .about-info-box { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 36px; }
+        .about-info-box p { margin-bottom: 12px; font-size: 0.95rem; }
+        .contact-card { background: #fff; border: none; border-radius: 4px; box-shadow: 0 2px 20px rgba(46,31,15,0.08); padding: 40px; }
+        .form-label { font-weight: 600; font-size: 0.9rem; color: #5c4030; }
+        .form-control { border: 1px solid #e8ddd4; border-radius: 2px; padding: 12px; font-size: 0.95rem; color: #2e1f0f; background: #fdf8f2; }
+        .form-control:focus { border-color: #c4783a; box-shadow: 0 0 0 3px rgba(196,120,58,0.1); background: #fff; }
+        .btn-submit { background-color: #2e1f0f; color: #f5e6d0; border: none; padding: 14px; font-size: 1rem; letter-spacing: 1px; border-radius: 2px; transition: background 0.3s; width: 100%; cursor: pointer; }
+        .btn-submit:hover { background-color: #c4783a; color: #fff; }
+        footer { background-color: #1a0f05; color: #a88a6e; padding: 28px 0; font-size: 0.9rem; }
+        .warm-divider { border: none; height: 1px; background: linear-gradient(to right, transparent, #c4783a, transparent); margin: 0; }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#home">The Book Nook</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#books">Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO SLIDESHOW -->
+<section id="home">
+    <div id="heroSlideshow" class="carousel slide hero-carousel" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroSlideshow" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroSlideshow" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroSlideshow" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#heroSlideshow" data-bs-slide-to="3"></button>
+            <button type="button" data-bs-target="#heroSlideshow" data-bs-slide-to="4"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1600" class="d-block w-100" alt="Cozy bookstore">
+                <div class="carousel-caption">
+                    <h2>Find Your Next<br>Favorite Read</h2>
+                    <p>A handpicked collection of books for every mood and moment.</p>
+                    <a href="#books" class="btn-warm">Browse Books</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1600" class="d-block w-100" alt="Stack of books">
+                <div class="carousel-caption">
+                    <h2>Curated<br>Collections</h2>
+                    <p>Handpicked titles across every genre.</p>
+                    <a href="#books" class="btn-warm">Browse Books</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1600" class="d-block w-100" alt="Reading lifestyle">
+                <div class="carousel-caption">
+                    <h2>Make Time<br>to Read</h2>
+                    <p>There is no better escape than a good book.</p>
+                    <a href="#books" class="btn-warm">Browse Books</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=1600" class="d-block w-100" alt="Library shelves">
+                <div class="carousel-caption">
+                    <h2>Thousands<br>of Titles</h2>
+                    <p>Fiction, mystery, inspiration and more.</p>
+                    <a href="#books" class="btn-warm">Browse Books</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=1600" class="d-block w-100" alt="Books and coffee">
+                <div class="carousel-caption">
+                    <h2>Books and<br>Good Company</h2>
+                    <p>The perfect reading moment starts here.</p>
+                    <a href="#books" class="btn-warm">Browse Books</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroSlideshow" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroSlideshow" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</section>
+
+<hr class="warm-divider">
+
+<!-- BOOKS -->
+<section id="books" class="py-5" style="background-color:#fdf8f2;">
+    <div class="container">
+        <h2 class="section-title text-center">Our Collection</h2>
+        <p class="section-subtitle text-center">Handpicked titles across your favorite genres</p>
+
+        <h4 class="genre-title">Fiction</h4>
+        <div class="row g-4 mb-5">
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>To Kill a Mockingbird</h5><p class="author">Harper Lee</p><p>A powerful story of racial injustice and moral growth in the American South.</p><span class="genre-badge badge-fiction">Fiction</span></div><div class="card-footer-price">$12.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>The Great Gatsby</h5><p class="author">F. Scott Fitzgerald</p><p>A tale of ambition, love, and the illusion of the American dream in the 1920s.</p><span class="genre-badge badge-fiction">Fiction</span></div><div class="card-footer-price">$10.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>The Alchemist</h5><p class="author">Paulo Coelho</p><p>A shepherd boy's journey to find treasure and discover his personal legend.</p><span class="genre-badge badge-fiction">Fiction</span></div><div class="card-footer-price">$11.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>1984</h5><p class="author">George Orwell</p><p>A chilling vision of a totalitarian society where Big Brother watches everyone.</p><span class="genre-badge badge-fiction">Fiction</span></div><div class="card-footer-price">$9.99</div></div></div>
+        </div>
+
+        <h4 class="genre-title">Inspirational</h4>
+        <div class="row g-4 mb-5">
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>Man's Search for Meaning</h5><p class="author">Viktor Frankl</p><p>A Holocaust survivor's account of finding purpose and meaning through suffering.</p><span class="genre-badge badge-inspo">Inspirational</span></div><div class="card-footer-price">$13.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>The Purpose Driven Life</h5><p class="author">Rick Warren</p><p>A guide to discovering God's five purposes for your life and living them out.</p><span class="genre-badge badge-inspo">Inspirational</span></div><div class="card-footer-price">$14.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>Atomic Habits</h5><p class="author">James Clear</p><p>A proven framework for building good habits and breaking bad ones.</p><span class="genre-badge badge-inspo">Inspirational</span></div><div class="card-footer-price">$16.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>Can't Hurt Me</h5><p class="author">David Goggins</p><p>A story of overcoming adversity and unlocking your full potential through discipline.</p><span class="genre-badge badge-inspo">Inspirational</span></div><div class="card-footer-price">$17.99</div></div></div>
+        </div>
+
+        <h4 class="genre-title">Mystery</h4>
+        <div class="row g-4 mb-5">
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>Gone Girl</h5><p class="author">Gillian Flynn</p><p>A wife goes missing on her anniversary and her husband becomes the prime suspect.</p><span class="genre-badge badge-mystery">Mystery</span></div><div class="card-footer-price">$13.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>The Girl with the Dragon Tattoo</h5><p class="author">Stieg Larsson</p><p>A journalist and hacker team up to investigate a decades-old disappearance.</p><span class="genre-badge badge-mystery">Mystery</span></div><div class="card-footer-price">$14.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>And Then There Were None</h5><p class="author">Agatha Christie</p><p>Ten strangers are lured to an island and begin to die one by one.</p><span class="genre-badge badge-mystery">Mystery</span></div><div class="card-footer-price">$10.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>The Da Vinci Code</h5><p class="author">Dan Brown</p><p>A symbologist unravels a secret that could shake the foundations of Christianity.</p><span class="genre-badge badge-mystery">Mystery</span></div><div class="card-footer-price">$12.99</div></div></div>
+        </div>
+
+        <h4 class="genre-title">Children</h4>
+        <div class="row g-4">
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>Charlotte's Web</h5><p class="author">E.B. White</p><p>A spider's extraordinary friendship with a pig teaches children about love and loss.</p><span class="genre-badge badge-children">Children</span></div><div class="card-footer-price">$7.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>The Very Hungry Caterpillar</h5><p class="author">Eric Carle</p><p>A colorful journey of a caterpillar eating his way through the week before transforming.</p><span class="genre-badge badge-children">Children</span></div><div class="card-footer-price">$6.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>Where the Wild Things Are</h5><p class="author">Maurice Sendak</p><p>A young boy's imagination takes him to a land of wild creatures where he becomes king.</p><span class="genre-badge badge-children">Children</span></div><div class="card-footer-price">$8.99</div></div></div>
+            <div class="col-sm-6 col-md-4 col-lg-3"><div class="book-card card"><div class="card-body"><h5>The Lion, the Witch and the Wardrobe</h5><p class="author">C.S. Lewis</p><p>Four siblings discover a magical world through a wardrobe and must help save it.</p><span class="genre-badge badge-children">Children</span></div><div class="card-footer-price">$9.99</div></div></div>
+        </div>
+    </div>
+</section>
+
+<hr class="warm-divider">
+
+<!-- ABOUT -->
+<section id="about" class="about-section py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-md-6">
+                <h2>About The Book Nook</h2>
+                <p>Welcome to The Book Nook — your neighborhood bookstore for readers of all ages. Whether you love getting lost in a mystery, finding inspiration in real stories, or reading to your little ones at bedtime, we have something for you.</p>
+                <p>Our mission is simple: connect people with books that matter. We believe every great book has the power to change how you see the world.</p>
+                <p>Stop by, browse, and find your next favorite read.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="about-info-box">
+                    <p><strong style="color:#f5e6d0;">Est. 2010</strong></p>
+                    <p>42 Reader's Lane, Philadelphia, PA</p>
+                    <p>Monday – Saturday: 9am – 7pm</p>
+                    <p>Sunday: 11am – 5pm</p>
+                    <p>hello@thebooknook.com</p>
+                    <p>(215) 555-0134</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="warm-divider">
+
+<!-- CONTACT -->
+<section id="contact" class="py-5" style="background-color:#fdf8f2;">
+    <div class="container">
+        <h2 class="section-title text-center">Get in Touch</h2>
+        <p class="section-subtitle text-center">Have a question or looking for a specific book? We would love to hear from you.</p>
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+                <div class="contact-card">
+                    <div class="mb-4"><label class="form-label">Your Name</label><input type="text" class="form-control" placeholder="Enter your name"></div>
+                    <div class="mb-4"><label class="form-label">Email Address</label><input type="email" class="form-control" placeholder="Enter your email"></div>
+                    <div class="mb-4"><label class="form-label">Message</label><textarea class="form-control" rows="5" placeholder="Type your message here..."></textarea></div>
+                    <button class="btn-submit">Send Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center">
+    <div class="container">
+        <p class="mb-1" style="font-family:'Playfair Display',serif; color:#f5e6d0; font-size:1.1rem;">The Book Nook</p>
+        <p class="mb-0">2026 The Book Nook. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
